@@ -7,7 +7,6 @@ NS_PORT = 6000
 TIME_PORT = 6001
 ECHO_PORT = 6002
 
-# Registro dei servizi: {nome: (host, porta)}
 SERVICES = {
     "time": (HOST, TIME_PORT),
     "echo": (HOST, ECHO_PORT),
@@ -25,13 +24,13 @@ async def send(writer, obj):
 
 
 async def serve_client(reader, writer, handler, name):
-    """Ciclo comune: legge righe JSON, chiama handler(req) -> risposta."""
-    peer = writer.get_extra_info("peername")
-    print(f"[{name}] connesso {peer}")
+    """Legge righe JSON, chiama handler(req), da una risposta."""
+    address = writer.get_extra_info("peername")
+    print(f"[{name}] connesso {address}")
     try:
         while True:
             line = await reader.readline()
-            if not line:  # EOF: il client si è disconnesso
+            if not line:  # Il client si è disconnesso
                 break
             try:
                 req = json.loads(line.decode())
@@ -50,7 +49,7 @@ async def serve_client(reader, writer, handler, name):
             await writer.wait_closed()
         except (ConnectionResetError, BrokenPipeError):
             pass
-        print(f"[{name}] disconnesso {peer}")
+        print(f"[{name}] disconnesso {address}")
 
 
 
