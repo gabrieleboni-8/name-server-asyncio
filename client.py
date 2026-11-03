@@ -24,7 +24,7 @@ async def lookup(service):
         writer.close()
         await writer.wait_closed()
     if resp.get("status") != "ok":
-        raise RuntimeError(f"lookup di {service} fallito: {resp.get('message')}")
+        raise RuntimeError(f"lookup di {service} fallito, {resp.get('message')}")
     return resp["host"], resp["port"]
 
 
