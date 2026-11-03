@@ -53,6 +53,7 @@ async def serve_client(reader, writer, handler, name):
         print(f"[{name}] disconnesso {peer}")
 
 
+
 def handle_nameserver(req):
     cmd = req.get("cmd")
     if cmd != "lookup":
@@ -82,7 +83,7 @@ def handle_echo(req):
     return {"status": "ok", "text": req["text"]}
 
 
-# ---------- Callback per start_server ----------
+
 
 async def ns_client(reader, writer):
     await serve_client(reader, writer, handle_nameserver, "name server")
