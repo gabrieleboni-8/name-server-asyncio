@@ -53,17 +53,15 @@ async def serve_client(reader, writer, handler, name):
         print(f"[{name}] disconnesso {peer}")
 
 
-# ---------- Handler dei tre servizi ----------
-
 def handle_nameserver(req):
     cmd = req.get("cmd")
     if cmd != "lookup":
-        return error(f"comando sconosciuto: {cmd!r}")
+        return error(f"comando sconosciuto: {cmd}")
     if "service" not in req:
         return error("campo mancante: service")
     service = req["service"]
     if not isinstance(service, str) or service not in SERVICES:
-        return error(f"servizio inesistente: {service!r}")
+        return error(f"servizio inesistente: {service}")
     host, port = SERVICES[service]
     return {"status": "ok", "service": service, "host": host, "port": port}
 
@@ -71,14 +69,14 @@ def handle_nameserver(req):
 def handle_time(req):
     cmd = req.get("cmd")
     if cmd != "time":
-        return error(f"comando sconosciuto: {cmd!r}")
+        return error(f"comando sconosciuto: {cmd}")
     return {"status": "ok", "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
 
 def handle_echo(req):
     cmd = req.get("cmd")
     if cmd != "echo":
-        return error(f"comando sconosciuto: {cmd!r}")
+        return error(f"comando sconosciuto: {cmd}")
     if "text" not in req:
         return error("campo mancante: text")
     return {"status": "ok", "text": req["text"]}
