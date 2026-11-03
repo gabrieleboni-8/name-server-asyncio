@@ -57,7 +57,7 @@ async def main():
     try:
         await lookup("xyz")
     except RuntimeError as e:
-        print("Atteso:", e)
+        print("Errore:", e)
 
 
 if __name__ == "__main__":

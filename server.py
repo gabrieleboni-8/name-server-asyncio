@@ -105,7 +105,10 @@ async def main():
     print(f"Echo server su {HOST}:{ECHO_PORT}")
 
     # I tre server girano come task concorrenti
-    tasks = [asyncio.create_task(s.serve_forever()) for s in (ns, ts, es)]
+    tasks = []
+    for s in (ns, ts, es):
+        task = asyncio.create_task(s.serve_forever())
+        tasks.append(task)
     try:
         await asyncio.gather(*tasks)
     except asyncio.CancelledError:
